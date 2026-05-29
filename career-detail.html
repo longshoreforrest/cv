@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LinkedIn tuned draft — Tapio Pitkäranta — 2026-05-19</title>
+<style>
+  :root{
+    /* Matches the main CV palette (styles.css) for a coherent identity. */
+    --bg:#fafafa; --card:#ffffff; --page:#faf8f3;
+    --text:#1a1a2e; --soft:#555770; --muted:#8a8da0;
+    --accent:#e67e22; --accent-soft:#fef3e6; --accent-dark:#d35400;
+    --border:#e2e4ea;
+    --tag-bg:#f0f1f4; --tag-text:#555770;
+    --warn-bg:#fff7ed; --warn-text:#9a3412; --warn-border:#fed7aa;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+       background:var(--page);color:var(--text);line-height:1.55;font-size:15px}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 64px}
+
+  .notice{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border);
+          border-radius:10px;padding:12px 16px;font-size:13px;margin-bottom:20px}
+  .notice strong{color:var(--warn-text)}
+
+  header.hero{background:var(--card);border:1px solid var(--border);border-radius:14px;
+              padding:24px 28px;margin-bottom:20px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  header.hero h1{font-size:28px;font-weight:700;letter-spacing:-.01em;margin-bottom:4px}
+  header.hero .role{font-size:16px;color:var(--soft);margin-bottom:2px}
+  header.hero .loc{font-size:14px;color:var(--muted)}
+  header.hero .contact{margin-top:14px;display:flex;flex-wrap:wrap;gap:14px;
+                       padding-top:14px;border-top:1px solid var(--border);font-size:13px;color:var(--soft)}
+  header.hero .contact a{color:var(--accent);text-decoration:none}
+  header.hero .contact a:hover{text-decoration:underline}
+  header.hero .stamp{margin-top:10px;font-size:12px;color:var(--muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  nav.toc{background:var(--card);border:1px solid var(--border);border-radius:14px;
+          padding:14px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;
+          align-items:center}
+  nav.toc a{color:var(--accent);text-decoration:none;padding:4px 10px;border-radius:6px;
+            background:var(--accent-soft);font-weight:500}
+  nav.toc a:hover{background:var(--accent-soft);color:var(--accent-dark)}
+
+  .searchbar{background:var(--card);border:1px solid var(--border);border-radius:14px;
+             padding:12px 16px;margin-bottom:20px;display:flex;gap:10px;align-items:center;
+             box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  .searchbar input{flex:1;border:none;outline:none;font-size:15px;color:var(--text);
+                   background:transparent;font-family:inherit}
+  .searchbar input::placeholder{color:var(--muted)}
+  .searchbar .ico{font-size:18px;color:var(--muted)}
+  .searchbar .clear{border:none;background:var(--tag-bg);color:var(--soft);
+                    padding:4px 10px;border-radius:6px;cursor:pointer;font-size:12px;
+                    font-family:inherit;display:none}
+  .searchbar .clear.show{display:inline-block}
+  .searchbar .count{font-size:12px;color:var(--muted);white-space:nowrap}
+
+  mark.hit{background:#fde68a;color:inherit;padding:0 2px;border-radius:3px}
+  .company.hidden{display:none}
+  .edu-row.hidden, .role-row.hidden{display:none}
+
+  section.block{background:var(--card);border:1px solid var(--border);border-radius:14px;
+                padding:22px 26px;margin-bottom:18px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  section.block > h2{font-size:18px;font-weight:700;color:var(--accent);
+                     margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  section.block > h2::before{content:"";width:4px;height:18px;background:var(--accent);
+                              border-radius:2px;display:inline-block}
+
+  .skills{display:flex;flex-wrap:wrap;gap:8px}
+  .skills span{background:var(--tag-bg);color:var(--tag-text);padding:6px 12px;border-radius:999px;
+               font-size:13px;font-weight:500}
+
+  .summary p{margin-bottom:10px;color:var(--soft)}
+  .summary ul{margin:8px 0 0 18px}
+  .summary li{color:var(--soft)}
+
+  .company{border-left:3px solid var(--accent);padding-left:16px;margin-bottom:22px}
+  .company:last-child{margin-bottom:0}
+  .company > h3{font-size:16px;font-weight:700;margin-bottom:2px}
+  .company > .span{font-size:13px;color:var(--muted);margin-bottom:12px}
+
+  .role-row{padding:10px 0;border-top:1px dashed var(--border)}
+  .role-row:first-of-type{border-top:none;padding-top:0}
+  .role-row .title{font-size:15px;font-weight:600;color:var(--text)}
+  .role-row .meta{font-size:13px;color:var(--muted);margin-bottom:6px}
+  .role-row p{font-size:14px;color:var(--soft);margin-top:6px}
+  .role-row p:first-of-type{margin-top:0}
+  .role-row .kw{font-size:12px;color:var(--muted);margin-top:6px;font-style:italic}
+  .role-row a{color:var(--accent);text-decoration:none;word-break:break-all}
+  .role-row a:hover{text-decoration:underline}
+
+  .edu-row{padding:10px 0;border-top:1px dashed var(--border)}
+  .edu-row:first-of-type{border-top:none;padding-top:0}
+  .edu-row .deg{font-size:15px;font-weight:600}
+  .edu-row .where{font-size:13px;color:var(--muted)}
+
+  footer{margin-top:24px;font-size:12px;color:var(--muted);text-align:center;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="notice">
+  <strong>🔎 Career detail — LinkedIn-style list — 2026-05-19.</strong>
+  Detailed companion to the main CV: a searchable, scannable list of every role, project and award. Edited to sharpen the AI / agent narrative.
+  Linked from the main CV and shipped encrypted alongside it.
+</div>
+
+<header class="hero">
+  <h1>Tapio Pitkäranta</h1>
+  <div class="role">Head of AI Development @ Siili Solutions</div>
+  <div class="loc">Helsinki, Uusimaa, Finland</div>
+  <div class="contact">
+    <span>✉ <a href="mailto:tapio.pitkaranta@iki.fi">tapio.pitkaranta@iki.fi</a></span>
+    <span>🔗 <a href="https://www.linkedin.com/in/tapiopitkaranta" target="_blank" rel="noopener">linkedin.com/in/tapiopitkaranta</a></span>
+  </div>
+</header>
+
+<nav class="toc">
+  <a href="index.html" style="background:var(--accent);color:#fff;">← Main CV</a>
+  <a href="#skills">Top skills</a>
+  <a href="#summary">Summary</a>
+  <a href="#awards">Publications &amp; awards</a>
+  <a href="#exp">Experience</a>
+  <a href="#edu">Education</a>
+</nav>
+
+<div class="searchbar" role="search">
+  <span class="ico">🔎</span>
+  <input id="search" type="search" placeholder="Filter by company, role, technology or year… (browser Ctrl/⌘+F also works)" autocomplete="off">
+  <span class="count" id="searchcount"></span>
+  <button class="clear" id="searchclear" type="button">clear</button>
+</div>
+
+<section class="block" id="skills">
+  <h2>Top skills</h2>
+  <div class="skills">
+    <span>Software Agents</span>
+    <span>Generative AI</span>
+    <span>Artificial Intelligence (AI)</span>
+    <span>Mathematics</span>
+    <span>Leadership</span>
+    <span>Solution Architecture</span>
+  </div>
+</section>
+
+<section class="block summary" id="summary">
+  <h2>Summary</h2>
+  <p><strong>For more than 20 years I have been working with AI.</strong> My passion is helping organizations turn modern AI — and especially <strong>agentic AI</strong> — into shipped products, working processes and decisions that matter.</p>
+  <p>The arc: software-agent research at <strong>VTT</strong> (2001+) and <strong>Aalto/TKK</strong>, retail forecasting at <strong>unicorn-scale RELEX</strong> (CTO), the <strong>HUS Data Lake</strong> cloud-AI platform at <strong>TietoEVRY</strong>, <strong>AI in international tax</strong> at <strong>Aibidia</strong> (early LLM &amp; RAG), and the NLP→LLM platform renewal at <strong>TalentAdore</strong>. Today: <strong>Head of AI Development at Siili Solutions</strong> and PhD research on software agents and LLMs at <strong>Aalto University</strong>.</p>
+  <p>Day to day I am a <strong>heavy user of frontier LLMs (OpenAI, Anthropic, Google)</strong> and the leading <strong>agentic coding tools — Claude Code, OpenAI Codex, GitHub Copilot Pro and Cursor</strong>. Two working principles guide the practice:</p>
+  <ul>
+    <li><strong>Demand the impossible from agents.</strong> Push them well past obvious tasks, into the work that previously needed a senior engineer.</li>
+    <li><strong>Don't do it — have the agents do it, then review.</strong> Engineering leverage comes from review-driven delegation, not from typing.</li>
+  </ul>
+  <p>In my PhD at Aalto I dig into the <strong>internals of modern LLM architectures</strong> — to understand exactly where <strong>Transformer-based AI</strong> starts to bend, so that benchmarks, agent designs and product decisions match the real model limits rather than the marketing.</p>
+  <p>Behind the AI work sits 15+ years of senior technical leadership — <strong>4× CTO across four sectors</strong> (retail unicorn <strong>RELEX</strong>, healthcare <strong>Hifian</strong> as founder, tax <strong>Aibidia</strong>, HR <strong>TalentAdore</strong>), scaling teams, services and SLAs through the toughest international growth phases.</p>
+  <p style="margin-top:14px;font-weight:600;color:var(--text)">EXPERTISE:</p>
+  <ul>
+    <li>Hands-on agentic engineering with frontier LLMs &amp; coding agents</li>
+    <li>Multi-agent system design and Agentic LLM benchmarking</li>
+    <li>AI / ML algorithm development at production scale (forecasting, healthcare, tax)</li>
+    <li>Modern LLM architecture &amp; Transformer limits — research-grade depth</li>
+    <li>Senior technical leadership through unicorn-scale growth (CTO, Head of AI)</li>
+    <li>Bridging business and AI — boardroom strategy down to running code</li>
+  </ul>
+</section>
+
+<section class="block" id="awards">
+  <h2>Selected publications &amp; awards</h2>
+  <div class="edu-row">
+    <div class="deg">🏆 Best Paper Award — PCSI 2025</div>
+    <div class="where">On AI agents · awarded H2/2025</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">🥈 2nd Best Paper Award — CHIRA 2025</div>
+    <div class="where">On LLMs and agents · awarded H2/2025</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">📚 25+ peer-reviewed international publications</div>
+    <div class="where">Across AI, machine learning, advanced analytics and generative AI</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">🎓 PhD in Software Agents &amp; Generative AI — Aalto University (pre-exam comments received; defense Q3/2026)</div>
+    <div class="where">Five conference papers in H2/2025</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">⭐ Master's Thesis and Licentiate's Thesis — both graded 5/5</div>
+    <div class="where">Helsinki University of Technology (now Aalto) · 2004, 2006</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">💡 1st Prize, Innovation Competition — €100 000 — three-person team (2013)</div>
+    <div class="where">LNG Inside Technologies (co-founder, marine LNG)</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">📈 Most accurate Covid-19 forecasts published in Finland — across two pandemic waves (2020)</div>
+    <div class="where">Wave 1 featured by TietoEVRY: <a href="https://www.tietoevry.com/en/blog/2020/06/tietoevrys-corona-epidemic-prediction-accuracy-is-top-notch/" target="_blank" rel="noopener">corona-epidemic-prediction-accuracy is top-notch</a></div>
+  </div>
+</section>
+
+<section class="block" id="exp">
+  <h2>Experience</h2>
+
+  <div class="company" id="company-siili">
+    <h3>Siili Solutions</h3>
+    <div class="span">8 months</div>
+    <div class="role-row">
+      <div class="title">Head of AI Development — Digital Engineering Business Line</div>
+      <div class="meta">January 2026 – Present (4 months) · Helsinki, Uusimaa, Finland</div>
+      <p>Heading AI Development for Siili's <strong>Digital Engineering Business Line</strong>. Setting the AI strategy and delivery motion for client engagements across <strong>retail, healthcare, taxation, energy and HR</strong>.</p>
+      <p>Continuing the deep hands-on use of <strong>coding agents and frontier LLMs</strong> described under AI Principal below — but now with broader BU-level scope: turning that agent-driven engineering practice into a delivery capability that Siili clients can buy and deploy.</p>
+      <div class="kw">AI strategy, AI delivery, business-line leadership, agentic engineering practice, GenAI consulting, client AI portfolios</div>
+    </div>
+    <div class="role-row">
+      <div class="title">AI Principal — Hands-On with Frontier Agents &amp; LLMs</div>
+      <div class="meta">September 2025 – January 2026 (5 months)</div>
+      <p>AI Principal at Siili Solutions, bridging business expertise with AI and GenAI. Applying data science methods and modern, well-structured ways of working — hands-on at the keyboard, not slideware.</p>
+      <p><strong>Extreme, daily use of coding agents and frontier LLMs</strong> — <strong>Claude Code</strong>, <strong>OpenAI Codex</strong>, <strong>GitHub Copilot Pro</strong> and <strong>Cursor</strong>, paired with <strong>frontier models from OpenAI, Anthropic and Google</strong> — building prototypes, internal tools and PoCs across multiple client domains. The work doubles as a lived case study for the agent-driven engineering practice I now help others adopt.</p>
+      <p>Currently the <strong>largest AI token consumer across the Siili Group</strong> (~1 000 employees) — using that bandwidth to stress-test agentic delivery in real client engagements and feed the learnings back into the organization.</p>
+      <div class="kw">Coding agents (Claude Code, Codex, GitHub Copilot Pro, Cursor), frontier LLMs (OpenAI, Anthropic, Google), agent farms, GenAI prototyping, applied data science, agentic ways of working, largest AI token consumer Siili Group</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-aalto">
+    <h3>Aalto University</h3>
+    <div class="role-row">
+      <div class="title">PhD Researcher — Software Agents, LLMs &amp; Agentic AI Benchmarks</div>
+      <div class="meta">2024 – Q3/2026 (Expected) · Helsinki, Finland</div>
+      <p>PhD research at Aalto University on <strong>software agents, large language models and generative AI</strong> — connecting the early multi-agent line I started at VTT to today's LLM-driven agentic AI.</p>
+      <p><strong>Hands-on daily with frontier LLMs</strong>, <strong>defining Agentic LLM benchmarks</strong>, and <strong>building practical multi-agent systems</strong>. The research line focuses less on toy demos and more on how real agents are measured, how they coordinate, and how they actually deliver value in production-grade contexts.</p>
+      <p>Part of the work goes into the <strong>internals of modern LLM architectures</strong> — studying exactly where <strong>Transformer-based AI</strong> bends and breaks, so that benchmarks and agent designs are calibrated against real model limits rather than marketing claims.</p>
+      <p><strong>Status (May 2026):</strong> Pre-examination comments received; finalizing the manuscript by June 2026; <strong>public defense and approval scheduled for Q3/2026</strong>. <strong>Five conference papers published in H2/2025</strong>, including a <strong>Best Paper Award at PCSI 2025</strong> on AI agents and a <strong>2nd Best Paper Award at CHIRA 2025</strong> on LLMs and agents. Over <strong>25 international publications</strong> across the wider AI / advanced-analytics line.</p>
+      <div class="kw">Software agents, multi-agent systems, large language models, agentic AI benchmarks, Transformer architecture limits, frontier LLM evaluation, applied AI research, generative AI, PCSI 2025 Best Paper, CHIRA 2025 2nd Best Paper, Aalto University PhD</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-talentadore">
+    <h3>TalentAdore</h3>
+    <div class="role-row">
+      <div class="title">Chief Technology Officer (CTO) — From Proprietary NLP to State-of-the-Art LLM Stack</div>
+      <div class="meta">February 2024 – April 2025 (1 year 3 months) · Finland</div>
+      <p>CTO at TalentAdore — a recruitment-tech SaaS that adds a human touch to hiring through advanced AI.</p>
+      <p><strong>Led the renewal of the company's core SaaS technology</strong> — migrating from an in-house, proprietary NLP stack to a <strong>public-cloud, state-of-the-art LLM stack</strong>. That move unlocked GenAI-grade capabilities for recruiters while collapsing operating costs and time-to-feature for the product team.</p>
+      <p>Implemented <strong>LLM features on AWS for hundreds of production customers</strong> processing personal-information data, with the team deploying advanced GenAI design patterns such as <strong>Retrieval-Augmented Generation (RAG)</strong> into production use.</p>
+      <p>Designed and implemented a <strong>multi-tenant data analytics platform on AWS</strong> with a column-oriented data layout for high-performance OLAP — <strong>15× improvement in query speed</strong> compared to the previous analytics solution.</p>
+      <p><strong>Centralized R&amp;D into the Helsinki region</strong> (~15 on-site employees, transformed from a distributed outsourced R&amp;D org) and hired the key people behind the new platform — building a focused, senior-loaded team that could ship on the new stack at the pace the market demanded. Reported technology strategy and R&amp;D outcomes to the CEO and Board.</p>
+      <div class="kw">SaaS renewal, proprietary NLP → LLM migration, public-cloud AI, state-of-the-art LLM stack, GenAI in recruitment, AWS, RAG in production, multi-tenant analytics platform, column-oriented OLAP, 15× query-speed improvement, R&amp;D centralization, senior engineering hiring</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-aibidia">
+    <h3>Aibidia</h3>
+    <div class="role-row">
+      <div class="title">Chief Technology Officer — AI in International Tax (ML · Function-DAG · LLMs &amp; Early RAG)</div>
+      <div class="meta">August 2020 – January 2024 (3 years 6 months)</div>
+      <p>CTO at Aibidia — bringing <strong>AI to international tax</strong> for global enterprises. Led the cloud platform that helps large multinationals digitalize their <strong>transfer-pricing</strong> processes through <strong>machine-learning and AI algorithm implementations</strong>.</p>
+      <p>Designed the platform's <strong>DAG-formatted function graphs</strong> — explicit, auditable computation graphs that capture transfer-pricing logic as composable transformations across millions of intercompany transactions and entity hierarchies.</p>
+      <p>Drove an <strong>early production deployment of large language models (LLMs) and Retrieval-Augmented Generation (RAG)</strong> — well before either became mainstream — to turn tax legislation, customer documents and audit trails into AI-assisted, searchable workflows for tax professionals.</p>
+      <p><strong>Business impact:</strong> SaaS revenue grew <strong>30×</strong>, workforce expanded <strong>6×</strong> to ~60 employees, R&amp;D organization of ~35 people transformed the product from PoC to a robust SaaS platform sold to some of the largest enterprises in the world. Reported technology strategy and R&amp;D outcomes to the Board; contributed to the <strong>Series A funding round (€13 M)</strong>.</p>
+      <p><strong>Security &amp; compliance:</strong> led the projects to obtain <strong>ISO 27001</strong> and <strong>SOC 2 / ISAE 3000 Type II</strong> certifications. Built the platform's analytics on <strong>Microsoft Azure</strong> with a full BI stack (SQL Server, Data Factory, Power BI, Pyramid Analytics).</p>
+      <p><a href="https://www.aibidia.com/" target="_blank" rel="noopener">https://www.aibidia.com/</a></p>
+      <div class="kw">AI in international tax, transfer pricing, machine learning, AI algorithm implementation, DAG function graphs, computation graphs, large language models (LLMs), early RAG, cloud SaaS platform, 30× SaaS revenue growth, Series A €13 M, ISO 27001, SOC 2 / ISAE 3000 Type II, Microsoft Azure</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-tietoevry">
+    <h3>TietoEVRY</h3>
+    <div class="role-row">
+      <div class="title">Head of Cloud Analytics and AI, TietoEVRY Healthcare — HUS Data Lake &amp; National-Scale Cloud AI</div>
+      <div class="meta">March 2020 – August 2020 (6 months)</div>
+      <p>Headed Cloud Analytics and AI at TietoEVRY Healthcare. <strong>Responsible for the HUS Data Lake</strong> — a <strong>Microsoft Azure–based public-cloud AI healthcare platform</strong> integrating all main HUS systems (<strong>Apotti / Epic plus 50+ supplementary systems</strong>) into a single research- and care-grade data layer.</p>
+      <p>The HUS Data Lake is <strong>the largest healthcare data platform in Finland</strong>, covering roughly <strong>40% of the country's population</strong> and hosting on the order of <strong>800 million laboratory results and ~1 million imaging records</strong>. It is the substrate for the 360° Patient view and a steadily growing fleet of AI and analytics use cases serving HUS clinicians and researchers.</p>
+      <p>Created accurate <strong>Covid-19 forecasts</strong> when the first corona wave hit Finland — featured by TietoEVRY: <a href="https://www.tietoevry.com/en/blog/2020/06/tietoevrys-corona-epidemic-prediction-accuracy-is-top-notch/" target="_blank" rel="noopener">corona-epidemic-prediction-accuracy is top-notch</a>.</p>
+      <p>Participated in <strong>RFPs up to 100 M€</strong>, defining solution architecture on top of public-cloud technologies for international healthcare customers.</p>
+      <div class="kw">HUS Data Lake, healthcare data platform, Microsoft Azure, public cloud, Epic / Apotti integration, clinical analytics, AI for healthcare, Covid-19 forecasting, solution architecture, RFP leadership</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-tieto-cto-office">
+    <h3>Tieto / TietoEVRY</h3>
+    <div class="role-row">
+      <div class="title">Chief Data Architect, CTO Office &amp; Data Transformation Lead — Senior AI in the Tieto/TietoEVRY CTO Office</div>
+      <div class="meta">June 2019 – February 2020 (9 months) · Helsinki Area, Finland</div>
+      <p><strong>Senior AI role in the Tieto / TietoEVRY CTO Office</strong>, reporting directly to the CTO through the period when Tieto and EVRY merged into a ~24 000-employee company. A landscape position covering large sales cases, project risk management, and internal and external transformations through the merger.</p>
+      <p>Drove <strong>data- and AI-driven transformations</strong> for <strong>large Nordic healthcare and retail customer engagements</strong>, working alongside the customer-facing teams and the CTO Office on cloud architecture and AI strategy. Participated in <strong>RFPs up to 300 M€+</strong> in total budget.</p>
+      <div class="kw">Senior AI strategy, Tieto/TietoEVRY CTO Office, data transformation, cloud architecture, Nordic healthcare, Nordic retail, large RFPs, post-merger integration</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-relex">
+    <h3>RELEX Solutions</h3>
+    <div class="span">11 years</div>
+    <div class="role-row">
+      <div class="title">CTO — Senior Technical Leadership at Unicorn Scale (Forecasting · R&amp;D · Mathematical AI)</div>
+      <div class="meta">June 2015 – April 2019 (3 years 11 months) · Helsinki Area, Finland</div>
+      <p><strong>Senior technical leader through RELEX's unicorn run-up.</strong> Personally hands-on in the <strong>largest customer deployments</strong>, where the SaaS platform calculated <strong>dozens of billions of forecasts</strong> across global retail networks — supply-chain mathematics at planetary scale.</p>
+      <p>Organized <strong>world-class R&amp;D efforts</strong> in partnership with <strong>large hardware manufacturers</strong>, pushing the limits of in-memory and GPU-accelerated computation for forecasting and optimization. Led the <strong>mathematical AI algorithm development</strong> behind the forecast / replenishment / workforce-planning accuracy that customers depended on.</p>
+      <p>During the 2015–2019 run, RELEX grew from <strong>~100 to ~600 employees</strong> and my organization from <strong>~30 to ~150</strong> across <strong>17 technical teams in 11 international locations</strong> — development, QA and technical delivery of <strong>200+ international projects</strong>. Constructed an <strong>enterprise-level cloud service</strong> with on the order of <strong>~300 000 GB RAM and ~20 000 processor cores</strong>. Built the SaaS &amp; IaaS platforms that run enterprise services for the largest international retailers (<strong>Coop Denmark, Morrisons, Rossmann</strong> and others), with the SLAs, service models and technical-leadership patterns behind them.</p>
+      <p>Saw the full customer lifecycle — from early sales through implementation to continuous support — hundreds of times in international Champions-League competition, and the full technology-stack evolution from application code down to physical infrastructure.</p>
+      <div class="kw">Senior technical leadership, mathematical AI algorithms, large-scale forecasting, IMDB &amp; GPU-accelerated computation, hardware R&amp;D partnerships, SaaS / IaaS at scale, retail planning, supply-chain optimization, machine learning, neural networks, Java, Python, SQL, AWS, React</div>
+    </div>
+    <div class="role-row">
+      <div class="title">Technical Director — Scaling SaaS, IMDB Forecasting &amp; Forward-Deployed Engineering</div>
+      <div class="meta">November 2010 – May 2015 (4 years 7 months) · Helsinki</div>
+      <p><strong>Scaled the technology and the organization</strong> as RELEX grew from ~30 to ~100 employees. Owned the end-to-end technology line — development, QA, agile delivery and 24/7 customer support — across every market the company operated in.</p>
+      <p>Deepened the <strong>in-memory database (IMDB) forecasting and replenishment algorithms</strong> at the heart of RELEX's retail planning suite. Worked hands-on across <strong>mathematical algorithms, data science and machine-learning models</strong> that powered the forecast / replenishment / workforce-planning output customers depended on.</p>
+      <p>Beyond the management line, I regularly <strong>embedded directly with the largest international customers</strong> — closer in spirit to a <em>forward-deployed senior engineer</em> than a traditional director — taking responsibility for the toughest performance, architecture and analytics problems that came in from the field.</p>
+      <p>Built the SaaS &amp; IaaS platforms that run enterprise services for international customers (Coop Denmark, Morrisons, Rossmann and others) and set up the SLAs, new teams and new technical approaches that supported the growth.</p>
+      <div class="kw">IMDB forecasting, retail forecasting &amp; replenishment, mathematical algorithms, data science, machine learning, neural networks, SaaS / IaaS scaling, forward-deployed engineering, Java, Python, SQL, AWS, React, ETL, SOA, ITIL</div>
+      <p><a href="http://www.relexsolutions.com/" target="_blank" rel="noopener">http://www.relexsolutions.com/</a></p>
+    </div>
+    <div class="role-row">
+      <div class="title">Senior Engineering Lead — First-Gen SaaS &amp; Customer Delivery</div>
+      <div class="meta">May 2008 – October 2010 (2 years 6 months)</div>
+      <p>Senior leader at RELEX as it grew from a one-team startup to ~30 people. <strong>Led the technical delivery of the largest customer engagements</strong> while the platform was still maturing.</p>
+      <p>Drove <strong>product expansion</strong> — building capabilities pulled from real customer needs into the core SaaS, including the <strong>in-memory database (IMDB) calculation engine and retail forecasting algorithms</strong> that became the technical core of the company's later international growth — and sparred closely with the small product-development team on architecture, performance and database design.</p>
+      <p>Developed <strong>Function Graphs over BOM (Bill-of-Materials) structures</strong> as a composable engine for forecasting — letting the team generate <strong>new types and classes of forecasting algorithms</strong> by re-wiring calculation graphs on top of the product/component hierarchy rather than hand-coding each algorithm. The pattern became a long-lived primitive in the platform.</p>
+      <p>Recruited the <strong>first DevOps team</strong> and stood up the SaaS operations, performance tooling and integration patterns that the platform would lean on through the next decade.</p>
+    </div>
+  </div>
+
+  <div class="company" id="company-lng-inside">
+    <h3>LNG Inside Technologies Oy</h3>
+    <div class="role-row">
+      <div class="title">Co-Founder — Marine LNG Ship-Conversion Venture</div>
+      <div class="meta">2013 – 2014 (part-time) · Finland</div>
+      <p>Co-founded a part-time startup focused on <strong>marine LNG (liquefied natural gas) ship conversion</strong>. The team of three won the <strong>1st prize in an innovation competition (€100 k)</strong> and secured funding for a <strong>€10 M LNG ship-conversion project</strong> for a customer.</p>
+      <p>The <strong>2014 oil-price decline</strong> abruptly shifted shipowner investment appetite for LNG conversions; the venture was ramped down accordingly.</p>
+      <div class="kw">Marine LNG, ship conversion, energy startup, innovation prize €100 k, customer funding €10 M, co-founder</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-hifian">
+    <h3>Hifian</h3>
+    <div class="role-row">
+      <div class="title">CTO, Head of AI &amp; Founder — Healthcare Decision Support &amp; Analytic BI</div>
+      <div class="meta">May 2008 – December 2013 (5 years 8 months) · Helsinki</div>
+      <p>CTO, Head of AI and co-founder at Hifian. The work combined <strong>software agents, analytic business-intelligence applications, decision-support systems and data science</strong>, applied to national-scale clinical and financial healthcare data.</p>
+      <p><strong>Main architect of the Finnish National Special Care cost database.</strong> Designed the platform that ingests <strong>cost-per-patient records from every Finnish hospital</strong> and produces <strong>combined cost weights</strong> across the <strong>diagnostic, organizational and time dimensions</strong> at multiple aggregation levels. The output drives benchmarking, invoicing and management decision support for special-care units nationwide.</p>
+      <p>Led the project that standardized how Finnish hospitals calculate costs-per-patient and invoice the parties covering them (final deliverable: ~100-page report). On top of this, implemented the analytical calculation engine that combined all special-care unit costs with clinical data to produce the price lists ("cost weights") used in invoicing.</p>
+      <p>Defined <strong>new types of flexible N-dimensional affinity functions</strong> used to analyze <strong>hospital cost-per-patient data</strong> — a composable similarity primitive that let analysts pivot across patient, diagnosis, treatment, organizational-unit and time dimensions simultaneously, surfacing comparable patient cohorts and cost structures across hospitals that traditional fixed groupings missed. The results were shared at <strong>international conferences</strong> (PCSI, ICEIS, ESTSP, EDBDT) and in the <strong>Finnish Medical Journal (Lääkärilehti)</strong>.</p>
+      <p>Contributed to <strong>Nordic-level DRG development</strong> (Finland, Sweden, Norway, Denmark, Iceland, Estonia), analyzing the financial and medical impact of proposed changes — <a href="https://www.nordcase.org/" target="_blank" rel="noopener">https://www.nordcase.org/</a></p>
+      <div class="kw">Software agents, decision support systems, analytic business intelligence, data science, machine learning, healthcare analytics, DRG, pattern recognition, N-dimensional affinity functions, cost-per-patient analytics, Python, Java, C++, R, GPU computation, Node.js, React.js</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-tkk">
+    <h3>Teknillinen korkeakoulu – Tekniska högskolan (Helsinki University of Technology → Aalto)</h3>
+    <div class="role-row">
+      <div class="title">Researcher / Postgraduate Studies — Software Agents, NLP &amp; Data-Driven AI</div>
+      <div class="meta">September 2004 – March 2013 (8 years 7 months)</div>
+      <p>Postgraduate research at Helsinki University of Technology (now Aalto). Completed my <strong>Licentiate of Technology</strong> in 2006 at the intersection of <strong>software agents, multi-agent systems and applied AI</strong>, building on the agent-research line started at VTT.</p>
+      <p>Across 2005–2013 the work extended into <strong>natural language processing, information retrieval and data mining</strong>, with <strong>10+ peer-reviewed international publications</strong> and conference presentations across Europe. Applied-research engagements brought these methods into <strong>healthcare</strong> (clinical &amp; financial analytics, DRG / cost-per-patient systems) and <strong>retail</strong> (forecasting, replenishment, planning) contexts — the same domains I later operationalized at scale at <strong>Hifian, RELEX and TietoEVRY</strong>.</p>
+      <div class="kw">Software agents, multi-agent systems, natural language processing, information retrieval, data mining, applied AI, machine learning, healthcare analytics, retail analytics</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-datawell">
+    <h3>Datawell Oy</h3>
+    <div class="role-row">
+      <div class="title">Senior Software Architect</div>
+      <div class="meta">September 2005 – May 2008 (2 years 9 months)</div>
+      <p>Healthcare IT Systems, Product Development.</p>
+      <p>Participated as an architect in implementing cost-per-patient systems that define bills that hospitals send to parties that pay special services in Finland (billions of euros per year). The system was based on two dimensional statistical grouping to define homogenous groups in clinical and financial dimension ("DRG, Diagnose Related Groups").</p>
+      <p><strong>Field:</strong> Data Warehouse projects, Extract Transform Load (ETL) processes, Diagnosis Related Grouping (DRG) systems.</p>
+      <div class="kw">Technical platforms: Python, Java, J2EE, JavaScript, Web Services, JSF, Struts, .NET, SQL Server, Oracle, MySQL, C/C++, Perl</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-vtt">
+    <h3>Technical Research Center of Finland (VTT)</h3>
+    <div class="role-row">
+      <div class="title">Research Scientist — Software Agents in Mobile, Context-Aware Environments</div>
+      <div class="meta">May 2001 – August 2005 (4 years 4 months)</div>
+      <p><strong>Software Agent Researcher</strong> at VTT, studying applied AI and machine learning with a focus on <strong>software agents operating in mobile, context-aware environments</strong> — agents that sense the user's situation (location, device, connectivity, task) and act on their behalf. Both my <strong>Master's Thesis</strong> and <strong>Licentiate's Thesis</strong> (each graded <strong>5/5</strong>) explored <strong>software agents and multi-agent systems</strong> as the design pattern for this kind of adaptive software — the intellectual ancestry of today's LLM-driven agentic AI.</p>
+      <p>Our research group <strong>published actively in international academic forums</strong> — peer-reviewed conferences and journals on software agents, multi-agent systems and applied AI, with travel and presentations across Europe and beyond.</p>
+      <p>From that vantage point I concluded that the practical future of adaptive AI agents would not come from explicit symbolic reasoning but from <strong>flexible algorithms that learn directly from data</strong>. That conviction steered my later work toward data science and natural language processing (NLP) — and, two decades on, the LLM-driven agent stack has validated both threads: agents as a design pattern, learned models as the substrate.</p>
+      <div class="kw">Software agents, multi-agent systems, mobile context-aware computing, applied AI, machine learning, wireless internet</div>
+    </div>
+  </div>
+
+  <div class="company" id="company-setec">
+    <h3>Setec Oy <span style="font-weight: 400; font-size: 14px; color: var(--muted);">(now Thales DIS Finland)</span></h3>
+    <div class="span">4 months</div>
+    <div class="role-row">
+      <div class="title">Software Engineer — PKI for Payment Cards</div>
+      <div class="meta">May 2000 – September 2000 (4 months) · Vantaa, Finland</div>
+      <p>My first industry role. Developed <strong>PKI (Public Key Infrastructure) software for payment cards</strong> as part of Setec's smart-card programme — the cryptographic plumbing that lets a chip card authenticate itself to terminals, banks and clearing networks.</p>
+      <p>The work happened inside Setec's <strong>high-security-classified Banknote Printing and Bank of Finland departments</strong>. Setec had been spun out of the <strong>Bank of Finland Security Printing House in 1993</strong>, and the combined facility still served as Finland's banknote printer for the central bank — a tightly controlled environment with the access protocols, segregated networks and clearance procedures that come with printing legal tender and personalising bank-grade chip cards.</p>
+      <p>Setec was acquired by <strong>Gemplus in 2005</strong>, merged into <strong>Gemalto</strong> in 2006 (Axalto + Gemplus), and ultimately became part of <strong>Thales</strong> through the Thales–Gemalto deal that closed in April 2019. The Finnish operation continues as <strong>Thales DIS Finland Oy</strong>.</p>
+      <div class="kw">PKI, public key infrastructure, smart cards, payment cards, EMV chip cards, cryptography, banking software, high-security environments, Bank of Finland, banknote printing, Setec, Gemplus, Gemalto, Thales DIS</div>
+    </div>
+  </div>
+</section>
+
+<section class="block" id="edu">
+  <h2>Education</h2>
+  <div class="edu-row">
+    <div class="deg">PhD — Software Agents &amp; Generative AI · defense Q3/2026 (pre-exam comments received)</div>
+    <div class="where">Aalto University</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">Licentiate, Information Technology</div>
+    <div class="where">Teknillinen korkeakoulu – Tekniska högskolan (Helsinki University of Technology → Aalto) · 2004 – 2006</div>
+  </div>
+  <div class="edu-row">
+    <div class="deg">M.Sc., Computer Science, Telecommunications Management</div>
+    <div class="where">Teknillinen korkeakoulu – Tekniska högskolan · 1999 – 2004</div>
+  </div>
+</section>
+
+<footer>
+  Career detail · Tapio Pitkäranta · 2026-05-19
+</footer>
+
+</div>
+
+<script>
+(function(){
+  const input = document.getElementById('search');
+  const clear = document.getElementById('searchclear');
+  const count = document.getElementById('searchcount');
+  if(!input) return;
+
+  // Targets that get show/hidden by the filter.
+  const companies = Array.from(document.querySelectorAll('#exp .company'));
+  const eduRows   = Array.from(document.querySelectorAll('#edu .edu-row, #awards .edu-row'));
+  const allTargets = companies.concat(eduRows);
+
+  // Cache original text for matching and original innerHTML for highlight restore.
+  allTargets.forEach(el => {
+    el.dataset._text = el.textContent.toLowerCase();
+    el.dataset._html = el.innerHTML;
+  });
+
+  function escapeRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
+
+  function highlight(el, q){
+    // Walk text nodes only; do not damage element structure.
+    const re = new RegExp(escapeRe(q), 'gi');
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null);
+    const nodes = [];
+    let n; while((n = walker.nextNode())) nodes.push(n);
+    nodes.forEach(node => {
+      if(!re.test(node.nodeValue)) return;
+      const frag = document.createDocumentFragment();
+      let last = 0; let m; re.lastIndex = 0;
+      while((m = re.exec(node.nodeValue))){
+        if(m.index > last) frag.appendChild(document.createTextNode(node.nodeValue.slice(last, m.index)));
+        const mark = document.createElement('mark');
+        mark.className = 'hit'; mark.textContent = m[0];
+        frag.appendChild(mark);
+        last = m.index + m[0].length;
+      }
+      if(last < node.nodeValue.length) frag.appendChild(document.createTextNode(node.nodeValue.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+
+  function apply(){
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+    allTargets.forEach(el => {
+      el.innerHTML = el.dataset._html; // restore (drops any prior <mark>)
+      const match = !q || el.dataset._text.includes(q);
+      el.classList.toggle('hidden', !match);
+      if(match){
+        shown += 1;
+        if(q) highlight(el, q);
+      }
+    });
+    if(q){
+      count.textContent = shown + ' / ' + allTargets.length + ' match' + (shown===1?'':'es');
+      clear.classList.add('show');
+    } else {
+      count.textContent = '';
+      clear.classList.remove('show');
+    }
+  }
+
+  input.addEventListener('input', apply);
+  clear.addEventListener('click', () => { input.value = ''; apply(); input.focus(); });
+  document.addEventListener('keydown', (e) => {
+    if(e.key === '/' && document.activeElement !== input){ e.preventDefault(); input.focus(); }
+    if(e.key === 'Escape' && document.activeElement === input){ input.value=''; apply(); }
+  });
+
+  // ===== Analytics instrumentation (no-op if mypa not loaded) =====
+  function mypa(event, extra){
+    try { if (window.mypa && window.mypa.send) window.mypa.send(event, extra); } catch(e){}
+  }
+
+  // Debounced search-use tracking. Only send query length, not the query string itself.
+  let searchTimer = null;
+  input.addEventListener('input', () => {
+    if (searchTimer) clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => {
+      const len = input.value.trim().length;
+      if (len > 0) mypa('filter', { kind: 'search', q_len: len });
+    }, 800);
+  });
+  clear.addEventListener('click', () => mypa('filter', { kind: 'search_clear' }));
+
+  // Outbound link clicks (LinkedIn, GitHub, mailto, external https)
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href') || '';
+    if (!href || href.startsWith('#')) return;
+    if (href.startsWith('mailto:')) { mypa('click', { target: 'email', href }); return; }
+    if (href.startsWith('tel:'))    { mypa('click', { target: 'phone', href }); return; }
+    if (href.includes('linkedin.com')) { mypa('click', { target: 'linkedin', href }); return; }
+    if (href.includes('github.com'))   { mypa('click', { target: 'github',   href }); return; }
+    if (/^https?:\/\//i.test(href))    { mypa('click', { target: 'outbound', href: href.slice(0, 120) }); return; }
+  }, true);
+
+  // Engagement time + max scroll depth on exit
+  let cdStartMs = Date.now();
+  let cdVisAccum = 0;
+  let cdLastVis = document.visibilityState === 'visible' ? Date.now() : 0;
+  let cdMaxScroll = 0;
+  let cdSent = false;
+  function updScroll(){
+    try {
+      const sh = document.documentElement.scrollHeight - window.innerHeight;
+      if (sh <= 0) return;
+      const pct = Math.round((window.scrollY / sh) * 100);
+      if (pct > cdMaxScroll) cdMaxScroll = Math.min(100, pct);
+    } catch(e){}
+  }
+  window.addEventListener('scroll', updScroll, { passive: true });
+  updScroll();
+  function sendCdEngagement(reason){
+    if (cdSent) return;
+    cdSent = true;
+    if (cdLastVis) { cdVisAccum += Date.now() - cdLastVis; cdLastVis = 0; }
+    mypa('engagement_end', {
+      page: 'career_detail',
+      reason: reason,
+      time_visible_ms: cdVisAccum,
+      time_total_ms: Date.now() - cdStartMs,
+      max_scroll_pct: cdMaxScroll
+    });
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'hidden') sendCdEngagement('hidden');
+    else if (document.visibilityState === 'visible' && cdSent) {
+      cdSent = false; cdStartMs = Date.now(); cdVisAccum = 0; cdLastVis = Date.now();
+    } else if (document.visibilityState === 'visible') {
+      cdLastVis = Date.now();
+    }
+  });
+  window.addEventListener('pagehide', () => sendCdEngagement('pagehide'));
+})();
+</script>
+
+<script>
+window.__MYPA_SITE__ = 'cv';
+window.__MYPA_ENDPOINT__ = 'https://mypa.longshoreforrest.workers.dev/collect';
+</script>
+<script>
+/*!
+ * MyPublicAnalytics beacon — selainpuolen snippet.
+ *
+ * Lähetys:
+ *   - 'pageview' automaattisesti sivun latautuessa
+ *   - Custom-eventit: window.mypa.send('section_view', { section: 'experience' })
+ *
+ * Käyttää navigator.sendBeacon() (eloonjäänti sivu-vaihdoksen yli) ja
+ * fetch keepalive:n fallbackia.
+ *
+ * Self-tagging (oman vierailusi erottelu):
+ *   Käy kerran sivulla URL:lla ?_mypa_self=1 → localStorageen tallentuu lippu,
+ *   ja kaikki tulevat eventit lähetetään {self:true}. Pois: ?_mypa_self=0.
+ */
+(function () {
+  if (typeof window === "undefined") return;
+  if (window.mypa && window.mypa.__initialized) return;
+
+  var SITE = window.__MYPA_SITE__ || "unknown";
+  var ENDPOINT = window.__MYPA_ENDPOINT__ || "";
+  var AUTO_EVENT = window.__MYPA_AUTO_EVENT__ || "pageview";
+
+  if (!ENDPOINT) return;
+
+  // Self-marker: URL-parametri tai localStorage-lippu.
+  var SELF = false;
+  try {
+    var sp = new URLSearchParams(window.location.search);
+    if (sp.get("_mypa_self") === "1") {
+      try { localStorage.setItem("mypa_self", "1"); } catch (e) {}
+    } else if (sp.get("_mypa_self") === "0") {
+      try { localStorage.removeItem("mypa_self"); } catch (e) {}
+    }
+    try { SELF = localStorage.getItem("mypa_self") === "1"; } catch (e) {}
+  } catch (e) {}
+
+  function utm() {
+    try {
+      var p = new URLSearchParams(window.location.search);
+      return {
+        source: p.get("utm_source") || null,
+        medium: p.get("utm_medium") || null,
+        campaign: p.get("utm_campaign") || null,
+      };
+    } catch (e) {
+      return { source: null, medium: null, campaign: null };
+    }
+  }
+
+  function clientContext() {
+    var ctx = {};
+    try {
+      ctx.screen_w = window.screen && screen.width || null;
+      ctx.screen_h = window.screen && screen.height || null;
+      ctx.viewport_w = window.innerWidth || null;
+      ctx.viewport_h = window.innerHeight || null;
+      ctx.dpr = window.devicePixelRatio || null;
+      ctx.language = (navigator.language || "").slice(0, 16);
+      ctx.languages = Array.isArray(navigator.languages)
+        ? navigator.languages.slice(0, 4).join(",")
+        : null;
+      ctx.color_scheme =
+        (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches)
+          ? "dark" : "light";
+      ctx.tz =
+        (Intl && Intl.DateTimeFormat &&
+         new Intl.DateTimeFormat().resolvedOptions().timeZone) || null;
+      ctx.tz_offset = -new Date().getTimezoneOffset();
+      var c = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+      if (c) {
+        ctx.net_type = c.effectiveType || null;
+        ctx.net_downlink = c.downlink || null;
+        ctx.net_rtt = c.rtt || null;
+        ctx.net_save_data = !!c.saveData;
+      }
+      ctx.touch = ("ontouchstart" in window) || (navigator.maxTouchPoints > 0);
+      ctx.hardware_concurrency = navigator.hardwareConcurrency || null;
+      ctx.device_memory = navigator.deviceMemory || null;
+    } catch (e) {}
+    return ctx;
+  }
+
+  function send(event, extra) {
+    try {
+      // Liitä client-konteksti pageview-eventtiin (kerran per session).
+      var ev = event || "pageview";
+      var enriched = extra ? Object.assign({}, extra) : {};
+      if (ev === "pageview" || ev === "login_pageview") {
+        Object.assign(enriched, clientContext());
+      }
+      var body = JSON.stringify({
+        site: SITE,
+        path: window.location.pathname + window.location.search,
+        event: ev,
+        referrer: document.referrer || "",
+        utm: utm(),
+        extra: Object.keys(enriched).length ? enriched : null,
+        self: SELF || undefined,
+      });
+      if (
+        navigator.sendBeacon &&
+        navigator.sendBeacon(
+          ENDPOINT,
+          new Blob([body], { type: "text/plain;charset=UTF-8" }),
+        )
+      ) {
+        return;
+      }
+      fetch(ENDPOINT, {
+        method: "POST",
+        headers: { "content-type": "text/plain;charset=UTF-8" },
+        body: body,
+        keepalive: true,
+        mode: "cors",
+        credentials: "omit",
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
+  if (document.readyState === "complete" || document.readyState === "interactive") {
+    send(AUTO_EVENT);
+  } else {
+    document.addEventListener("DOMContentLoaded", function () {
+      send(AUTO_EVENT);
+    });
+  }
+
+  window.mypa = { send: send, __initialized: true, __self: SELF };
+})();
+
+</script>
+</body>
+</html>
